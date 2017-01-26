@@ -1,0 +1,73 @@
+module tl1 {
+    yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:tl1";
+    prefix "tl1";
+
+    revision "2015-01-05" {
+        description "Initial revision of tl1 model";
+    }
+    rpc hello-tl1 {
+        input {
+        	leaf ip {
+                type string;
+                description "Initial revision of tl1 model";
+            }
+            leaf message {
+                type string;
+            }
+        }
+        output {
+            leaf greeting {
+                type string;
+            }
+        }
+    }
+    rpc add-ip {
+        input {
+            leaf ip {
+                type string;
+            }
+        }
+        output {
+            leaf status {
+            	type enumeration{
+        			enum "success"{
+        				value 0;
+        				description "the ip added successfully";
+        			}
+        			enum "failed"{
+        				value 1;
+        				description "could not add ip";
+        			}
+     		  }
+            }
+        }
+    }
+    
+    
+    container device-registry {
+        list device-registry-entry {
+        	key "ip";
+            leaf ip {
+                type string;
+            }
+            
+        }
+    }
+    
+     
+//    notification Device{
+//    	leaf deviceStatu{
+//    		type enumeration{
+//    			enum "working"{
+//    				value 0;
+//    				description "the device is working properly";
+//    			}
+//    			enum "not_working"{
+//    				value 1;
+//    				description "the device is not working properly";
+//    			}
+//    		}
+//    	}
+//    }
+}

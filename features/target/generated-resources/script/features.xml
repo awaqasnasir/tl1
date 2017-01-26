@@ -1,0 +1,27 @@
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.2.0" name="odl-tl1-${project.version}" xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <repository>mvn:org.opendaylight.yangtools/features-yangtools/0.8.4-SNAPSHOT/xml/features</repository>
+  <repository>mvn:org.opendaylight.controller/features-mdsal/1.3.4-SNAPSHOT/xml/features</repository>
+  <repository>mvn:org.opendaylight.mdsal.model/features-mdsal-model/0.8.4-SNAPSHOT/xml/features</repository>
+  <repository>mvn:org.opendaylight.netconf/features-restconf/1.3.4-SNAPSHOT/xml/features</repository>
+  <repository>mvn:org.opendaylight.dlux/features-dlux/0.3.4-SNAPSHOT/xml/features</repository>
+  <feature name="odl-tl1-api" version="${project.version}" description="OpenDaylight :: tl1 :: api">
+    <feature version="${mdsal.model.version}">odl-mdsal-models</feature>
+    <bundle>mvn:org.opendaylight.tl1/tl1-api/1.0.0-SNAPSHOT</bundle>
+  </feature>
+  <feature name="odl-tl1" version="${project.version}" description="OpenDaylight :: tl1">
+    <feature version="${mdsal.version}">odl-mdsal-broker</feature>
+    <feature version="${project.version}">odl-tl1-api</feature>
+    <bundle>mvn:org.opendaylight.tl1/tl1-impl/1.0.0-SNAPSHOT</bundle>
+    <configfile finalname="${configfile.directory}/tl1.xml">mvn:org.opendaylight.tl1/tl1-impl/1.0.0-SNAPSHOT/xml/config</configfile>
+  </feature>
+  <feature name="odl-tl1-rest" version="${project.version}" description="OpenDaylight :: tl1 :: REST">
+    <feature version="${project.version}">odl-tl1</feature>
+    <feature version="${restconf.version}">odl-restconf</feature>
+  </feature>
+  <feature name="odl-tl1-ui" version="${project.version}" description="OpenDaylight :: tl1 :: UI">
+    <feature version="${project.version}">odl-tl1-rest</feature>
+    <feature version="${restconf.version}">odl-mdsal-apidocs</feature>
+    <feature version="${mdsal.version}">odl-mdsal-xsql</feature>
+    <feature version="${dlux.version}">odl-dlux-yangui</feature>
+  </feature>
+</features>
