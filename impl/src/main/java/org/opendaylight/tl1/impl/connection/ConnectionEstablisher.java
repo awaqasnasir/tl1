@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.opendaylight.tl1.impl.MDSal;
+import org.opendaylight.tl1.impl.Utility;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.SendTl1commandToAllDeviceInput;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.SendTl1commandToMultipleDeviceInput;
 
 public class ConnectionEstablisher {
 	private static ConnectionEstablisher obj;
@@ -42,21 +45,54 @@ public class ConnectionEstablisher {
 		}
 		
 	}
-	public void connect(String ip){
+	public boolean connect(String ip){
 		Device dev=new Device(ip);
-		dev.start();
-		devices.add(dev);
+		if(dev.connect()){
+			dev.start();
+			devices.add(dev);
+			return true;
+		}
+		return false;
+		
 		
 	}
 	public Device getDevice(String ip){
 		for(int i=0;i<devices.size();i++)
 		{
 			if(devices.get(i).getIp().equals(ip)){
+				System.out.println("device found with ip"+devices.get(i).getIp());
 				return devices.get(i);
 				
 			}
 		}
 		return null;
+		
+	}
+	public List<String> sendCommandToAll(SendTl1commandToAllDeviceInput input){
+		List<String> responses=new ArrayList<String>();
+		
+		for(int i=0;i<devices.size();i++)
+		{
+			String command=Utility.convert_Into_Tl1_Command(input,devices.get(i).getIp());
+			String response=devices.get(i).sendCommand(command);
+			responses.add(response);
+		}
+		return responses;
+	}
+
+	public List<String> sendCommandToMultiple(SendTl1commandToMultipleDeviceInput input) {
+		// TODO Auto-generated method stub
+		List<String> Tids=input.getTIDs();
+		List<String> responses=new ArrayList<String>();
+		
+		for(int i=0; i<Tids.size();i++){
+			String command=Utility.convert_Into_Tl1_Command(input,Tids.get(i));
+			String response=getDevice(Tids.get(i)).sendCommand(command);
+			responses.add(response);
+			
+		}
+		return responses;
+		
 		
 	}
 			

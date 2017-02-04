@@ -16,7 +16,7 @@ import org.opendaylight.controller.md.sal.binding.api.WriteTransaction;
 import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType;
 import org.opendaylight.controller.md.sal.common.api.data.ReadFailedException;
 import org.opendaylight.controller.md.sal.common.api.data.TransactionCommitFailedException;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.AddIpInput;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.AddDeviceInput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.DeviceRegistry;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.DeviceRegistryBuilder;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.device.registry.DeviceRegistryEntry;
@@ -49,7 +49,7 @@ private static final Logger LOG = LoggerFactory.getLogger(Tl1Provider.class);
   Futures.addCallback(future, new LoggingFuturesCallBack<Void>("Failed to write greeting to greeting registry", LOG));
 }
   // to write a entry in mdsal
-  public static void writeToDeviceRegistry(AddIpInput  input){
+  public static void writeToDeviceRegistry(AddDeviceInput  input){
 	  WriteTransaction transaction=dbroker.newWriteOnlyTransaction();
 	  InstanceIdentifier<DeviceRegistryEntry> iid=toInstaceIdentifier(input);
 	  DeviceRegistryEntry entry=new DeviceRegistryEntryBuilder()
@@ -61,7 +61,7 @@ private static final Logger LOG = LoggerFactory.getLogger(Tl1Provider.class);
 	  
   }
   // to convert instance into identifier
-  private static InstanceIdentifier<DeviceRegistryEntry> toInstaceIdentifier(AddIpInput input){
+  private static InstanceIdentifier<DeviceRegistryEntry> toInstaceIdentifier(AddDeviceInput input){
 	  InstanceIdentifier<DeviceRegistryEntry> iid=InstanceIdentifier.create(DeviceRegistry.class)
 			  .child(DeviceRegistryEntry.class, new DeviceRegistryEntryKey(input.getIp()));
 			  

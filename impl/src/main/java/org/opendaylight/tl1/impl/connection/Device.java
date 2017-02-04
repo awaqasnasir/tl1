@@ -24,11 +24,11 @@ public class Device extends Thread{
 	Socket device;
 	PrintStream write;
 	BufferedReader read;
+	private static final Logger LOG = LoggerFactory.getLogger(Tl1Provider.class);
 	public Device(String ip){
 		ipAddress=ip;
 	}
-	private static final Logger LOG = LoggerFactory.getLogger(Tl1Provider.class);
-	public void run(){
+	public boolean connect(){
 		try {
 			device=new Socket("192.168.56.102",2222);
 			write=new PrintStream(device.getOutputStream());
@@ -45,6 +45,19 @@ public class Device extends Thread{
 				LOG.info("hand shake response receive: connection esatablished");
 				//asign ip to device
 				write.println(ipAddress);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+		
+	}
+	
+	public void run(){
+		try {
+			
 				// wait for device to send message
 				while(true){
 					if(device.getInputStream().available()!=0){
@@ -55,7 +68,7 @@ public class Device extends Thread{
 				}
 				
 				
-			}
+			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

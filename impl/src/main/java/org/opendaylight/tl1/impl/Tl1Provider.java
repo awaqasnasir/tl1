@@ -19,7 +19,7 @@ import org.opendaylight.controller.sal.binding.api.BindingAwareProvider;
 import org.opendaylight.tl1.impl.connection.ConnectionEstablisher;
 //import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 //import org.opendaylight.controller.sal.binding.api.NotificationService;
-import org.opendaylight.tl1.impl.connection.connectionListener;
+//import org.opendaylight.tl1.impl.connection.connectionListener;
 //import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.DeviceInfo;
 //import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.DeviceInfoBuilder;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.Tl1Service;
