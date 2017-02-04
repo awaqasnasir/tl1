@@ -6,23 +6,8 @@ module tl1 {
     revision "2015-01-05" {
         description "Initial revision of tl1 model";
     }
-    rpc hello-tl1 {
-        input {
-        	leaf ip {
-                type string;
-                description "Initial revision of tl1 model";
-            }
-            leaf message {
-                type string;
-            }
-        }
-        output {
-            leaf greeting {
-                type string;
-            }
-        }
-    }
-    rpc add-ip {
+   
+    rpc add-device {
         input {
             leaf ip {
                 type string;
@@ -35,7 +20,7 @@ module tl1 {
         				value 0;
         				description "the ip added successfully";
         			}
-        			enum "failed"{
+        			enum "failed to connect"{
         				value 1;
         				description "could not add ip";
         			}
@@ -43,6 +28,159 @@ module tl1 {
             }
         }
     }
+    
+    // rpc to send command to single device
+    rpc send-Tl1command-to-a-device {
+        input {
+        	leaf Verb {
+                type string;
+                description "verb for action to be performed";
+            }
+        	leaf Modeifier1 {
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf Modeifier2 {
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf TID {
+                type string;
+                description "id of targeted device";
+            }
+            leaf AID {
+                type string;
+                description "id of targeted device";
+            }
+            leaf CTAG {
+                type string;
+                description "id of targeted device";
+            }
+            leaf GeneralBlock {
+                type string;
+                description "id of targeted device";
+            }
+            leaf dataBlock-E {
+                type string;
+                description "id of targeted device";
+            }
+            leaf dataBlock-F {
+                type string;
+                description "id of targeted device";
+            }
+            leaf dataBlock-G {
+                type string;
+                description "id of targeted device";
+            }
+        }
+        output {
+            leaf CommandResponse {
+                type string;
+            }
+        }
+    }
+    
+    
+//  rpc to send command to All device
+    rpc send-Tl1command-to-all-device {
+        input {
+        	leaf Verb {
+                type string;
+                description "verb for action to be performed";
+            }
+        	leaf Modeifier1 {
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf Modeifier2 {
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf AID {
+                type string;
+                description "id of targeted device";
+            }
+            leaf CTAG {
+                type string;
+                description "id of targeted device";
+            }
+            leaf GeneralBlock {
+                type string;
+                description "id of targeted device";
+            }
+            leaf dataBlock-E {
+                type string;
+                description "id of targeted device";
+            }
+            leaf dataBlock-F {
+                type string;
+                description "id of targeted device";
+            }
+            leaf dataBlock-G {
+                type string;
+                description "id of targeted device";
+            }
+        }
+        output {
+            leaf-list Command-Responses {
+                type string;
+                description "responses from all devices";
+            }
+        }
+    }
+    
+//  rpc to send command to multiple Device device
+    rpc send-Tl1command-to-multiple-device {
+        input {
+        	leaf Verb {
+                type string;
+                description "verb for action to be performed";
+            }
+        	leaf Modeifier1 {
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf Modeifier2 {
+                type string;
+                description "optional modifier for verb";
+            }
+            leaf-list TIDs {
+                type string;
+                description "Give ips for devices";
+            }
+            leaf AID {
+                type string;
+                description "id of targeted device";
+            }
+            leaf CTAG {
+                type string;
+                description "id of targeted device";
+            }
+            leaf GeneralBlock {
+                type string;
+                description "id of targeted device";
+            }
+            leaf dataBlock-E {
+                type string;
+                description "id of targeted device";
+            }
+            leaf dataBlock-F {
+                type string;
+                description "id of targeted device";
+            }
+            leaf dataBlock-G {
+                type string;
+                description "id of targeted device";
+            }
+        }
+        output {
+            leaf-list Command-Responses {
+                type string;
+                description "responses from multiple devices";
+            }
+        }
+    }
+    
     
     
     container device-registry {
@@ -70,4 +208,21 @@ module tl1 {
 //    		}
 //    	}
 //    }
+    
+    /*rpc hello-tl1 {
+    input {
+    	leaf ip {
+            type string;
+            description "Initial revision of tl1 model";
+        }
+        leaf message {
+            type string;
+        }
+    }
+    output {
+        leaf greeting {
+            type string;
+        }
+    }
+}*/
 }
