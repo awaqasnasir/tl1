@@ -38,15 +38,15 @@ public class ConnectionEstablisher {
 	public void connectToAll(){
 		ips=MDSal.getAllDevices();
 		for(int i=0;i<ips.size();i++){
-			Device dev=new Device(ips.get(i));
+			Device dev=new Device(ips.get(i),"2222");
 			dev.start();
 			devices.add(dev);
 			
 		}
 		
 	}
-	public boolean connect(String ip){
-		Device dev=new Device(ip);
+	public boolean connect(String ip,String port){
+		Device dev=new Device(ip,port);
 		if(dev.connect()){
 			dev.start();
 			devices.add(dev);

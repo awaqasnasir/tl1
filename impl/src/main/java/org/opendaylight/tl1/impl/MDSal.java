@@ -7,8 +7,15 @@
  */
 package org.opendaylight.tl1.impl;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.ReadOnlyTransaction;
@@ -49,11 +56,12 @@ private static final Logger LOG = LoggerFactory.getLogger(Tl1Provider.class);
   Futures.addCallback(future, new LoggingFuturesCallBack<Void>("Failed to write greeting to greeting registry", LOG));
 }
   // to write a entry in mdsal
-  public static void writeToDeviceRegistry(AddDeviceInput  input){
+  public static void writeToDeviceRegistry(String ip, String port){
 	  WriteTransaction transaction=dbroker.newWriteOnlyTransaction();
-	  InstanceIdentifier<DeviceRegistryEntry> iid=toInstaceIdentifier(input);
+	  InstanceIdentifier<DeviceRegistryEntry> iid=toInstaceIdentifier(ip);
 	  DeviceRegistryEntry entry=new DeviceRegistryEntryBuilder()
-			  .setIp(input.getIp())
+			  .setIp(ip)
+			  .setPort(port)
 			  .build();
 	  transaction.put(LogicalDatastoreType.OPERATIONAL, iid, entry);
 	  CheckedFuture<Void,TransactionCommitFailedException> future=transaction.submit();
@@ -61,9 +69,9 @@ private static final Logger LOG = LoggerFactory.getLogger(Tl1Provider.class);
 	  
   }
   // to convert instance into identifier
-  private static InstanceIdentifier<DeviceRegistryEntry> toInstaceIdentifier(AddDeviceInput input){
+  private static InstanceIdentifier<DeviceRegistryEntry> toInstaceIdentifier(String ip){
 	  InstanceIdentifier<DeviceRegistryEntry> iid=InstanceIdentifier.create(DeviceRegistry.class)
-			  .child(DeviceRegistryEntry.class, new DeviceRegistryEntryKey(input.getIp()));
+			  .child(DeviceRegistryEntry.class, new DeviceRegistryEntryKey(ip));
 			  
 			  
 			  return iid;
@@ -104,6 +112,49 @@ private static final Logger LOG = LoggerFactory.getLogger(Tl1Provider.class);
 		  ips.add(list.get(i).getIp());
 	  }
 	  return ips;
+	  
+  }
+  public static int loadNodes(String path){
+	  
+	// The name of the file to open.
+      String fileName = path;
+
+      // This will reference one line at a time
+      String line = null;
+
+      try {
+          // FileReader reads text files in the default encoding.
+          FileReader fileReader = 
+              new FileReader(fileName);
+
+          // Always wrap FileReader in BufferedReader.
+          BufferedReader bufferedReader = 
+              new BufferedReader(fileReader);
+
+          while((line = bufferedReader.readLine()) != null) {
+        	  String[] deviceInfo=line.split(",");
+        	  
+              System.out.println(line);
+              
+          }   
+
+          // Always close files.
+          bufferedReader.close();         
+      }
+      catch(FileNotFoundException ex) {
+          System.out.println(
+              "Unable to open file '" + 
+              fileName + "'");                
+      }
+      catch(IOException ex) {
+          System.out.println(
+              "Error reading file '" 
+              + fileName + "'");                  
+          // Or we could just do this: 
+          // ex.printStackTrace();
+      }
+	  
+	return 0;
 	  
   }
  

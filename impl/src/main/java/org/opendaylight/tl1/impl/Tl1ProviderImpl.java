@@ -23,7 +23,8 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev1
 //import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.Device.DeviceStatu;
 //import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.DeviceBuilder;
 //import org.opendaylight.tl1.impl.connection.*;
-
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.ReloadNodesInput;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.ReloadNodesOutput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.SendTl1commandToADeviceInput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.SendTl1commandToADeviceOutput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.tl1.rev150105.SendTl1commandToADeviceOutputBuilder;
@@ -47,8 +48,8 @@ public class Tl1ProviderImpl implements Tl1Service{
 	@Override
 	public Future<RpcResult<AddDeviceOutput>> addDevice(AddDeviceInput input) {
 		// TODO Auto-generated method stub
-		MDSal.writeToDeviceRegistry(input);
-		if(ConnectionEstablisher.getInstance().connect(input.getIp())){
+		MDSal.writeToDeviceRegistry(input.getIp(),input.getPort());
+		if(ConnectionEstablisher.getInstance().connect(input.getIp(),input.getPort())){
 			AddDeviceOutput output=new AddDeviceOutputBuilder().setStatus(AddDeviceOutput.Status.Success).build();
 			return RpcResultBuilder.success(output).buildFuture();
 		}
@@ -95,6 +96,13 @@ public class Tl1ProviderImpl implements Tl1Service{
 		SendTl1commandToMultipleDeviceOutput output=new SendTl1commandToMultipleDeviceOutputBuilder().setCommandResponses(responces).build();
 		
 		return RpcResultBuilder.success(output).buildFuture();
+	}
+
+	@Override
+	public Future<RpcResult<ReloadNodesOutput>> reloadNodes(ReloadNodesInput input) {
+		// TODO Auto-generated method stub
+		MDSal.loadNodes(input.getFilePath());
+		return null;
 	}
 	
 	

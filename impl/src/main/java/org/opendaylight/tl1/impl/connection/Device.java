@@ -20,13 +20,15 @@ import org.slf4j.LoggerFactory;
 
 public class Device extends Thread{
 	private String ipAddress;
+	private String port;
 	private String response="";
 	Socket device;
 	PrintStream write;
 	BufferedReader read;
 	private static final Logger LOG = LoggerFactory.getLogger(Tl1Provider.class);
-	public Device(String ip){
+	public Device(String ip,String port){
 		ipAddress=ip;
+	    this.port=port;
 	}
 	public boolean connect(){
 		try {
