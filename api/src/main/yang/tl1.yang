@@ -12,6 +12,9 @@ module tl1 {
             leaf ip {
                 type string;
             }
+            leaf port {
+                type string;
+            }
         }
         output {
             leaf status {
@@ -180,7 +183,20 @@ module tl1 {
             }
         }
     }
-    
+    rpc reload-nodes {
+        input {
+        	leaf file-path {
+                type string;
+                description "path of file which contains ips and ports of network nodes";
+            }
+            
+        }
+        output {
+            leaf result {
+                type string;
+            }
+        }
+    }
     
     
     container device-registry {
@@ -189,9 +205,13 @@ module tl1 {
             leaf ip {
                 type string;
             }
+            leaf port {
+                type string;
+            }
             
         }
     }
+    
     
      
 //    notification Device{
